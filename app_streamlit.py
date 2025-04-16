@@ -28,7 +28,7 @@ else:
     st.markdown("Bienvenido a la versión web inteligente de ElottoIA. Usa datos reales del Euromillones desde 2004 para ofrecerte combinaciones con análisis predictivo y gráficos interactivos.")
 
     df_frecuencia = pd.read_csv("frecuencia_reales_2004_2025.csv")
-    df_euromillones = pd.read_csv("euromillones.csv")
+    df_euromillones = pd.read_csv("historico_euromillones_2004_2025.csv")
 
     # 🎯 Generador
     st.header("🔢 Generador de Combinaciones")
