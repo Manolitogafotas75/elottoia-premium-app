@@ -1208,14 +1208,14 @@ def main():
         # Tabla de frecuencia de números
         tabla = pd.crosstab(df['Número'], df['Año'])
         tabla = tabla.sort_index().reindex(range(1, 51), fill_value=0)
-        st.dataframe(tabla, use_container_width=True)
+        st.dataframe(tabla, use_column_width=True)
 
         # Tabla de frecuencia de estrellas
         tabla_e = pd.crosstab(df_e['Estrella'], df_e['Año'])
         tabla_e = tabla_e.sort_index().reindex(range(1, 13), fill_value=0)
         st.markdown('---')
         st.header(text['frecuencia_estrellas'])
-        st.dataframe(tabla_e, use_container_width=True)
+        st.dataframe(tabla_e, use_column_width=True)
         st.markdown('---')
 
         # Heatmap de frecuencia
@@ -1240,7 +1240,7 @@ def main():
         top5_estrellas = df_e.groupby(['Año', 'Estrella']).size().reset_index(name='Frecuencia')
         top5_tabla = top5_estrellas.sort_values(['Año', 'Frecuencia'], ascending=[True, False])
         top5_tabla = top5_tabla.groupby('Año').head(5).reset_index(drop=True)
-        st.dataframe(top5_tabla, use_container_width=True)
+        st.dataframe(top5_tabla, use_column_width=True)
 
         # Pares de estrellas más repetidas por año
         st.markdown(f"_{text['pairs_help']}_")
@@ -1261,7 +1261,7 @@ def main():
             top = conteo.most_common(1)[0]
             resultado_pares.append({'Año': anio, 'Par Más Repetido': f'{top[0][0]} y {top[0][1]}', 'Veces': top[1]})
         df_pares = pd.DataFrame(resultado_pares).sort_values('Año')
-        st.dataframe(df_pares, use_container_width=True)
+        st.dataframe(df_pares, use_column_width=True)
 
         # Porcentaje de aparición de números
         st.markdown(f"_{text['percentage_help']}_")
@@ -1269,7 +1269,7 @@ def main():
         total_sorteos = len(lineas)
         porcentaje = df['Número'].value_counts().sort_index() / total_sorteos * 100
         df_porcentaje = pd.DataFrame({'Número': porcentaje.index, 'Porcentaje (%)': porcentaje.values.round(2)})
-        st.dataframe(df_porcentaje, use_container_width=True)
+        st.dataframe(df_porcentaje, use_column_width=True)
 
         # Evolución de un número por año
         st.subheader(text['evolution_title'])
@@ -1301,7 +1301,7 @@ def main():
             fig_int = px.line(df_agrupado, x='Año', y='Frecuencia', color='Número', markers=True,
                                title=text['interactive_chart_title'])
             fig_int.update_layout(hovermode='x unified')
-            st.plotly_chart(fig_int, use_container_width=True)
+            st.plotly_chart(fig_int, use_column_width=True)
 
     except Exception as e:
         st.error(f"Error en el análisis avanzado: {str(e)}")
