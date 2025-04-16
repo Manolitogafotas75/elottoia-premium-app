@@ -43,8 +43,7 @@ else:
             res = pc.modo_hibrido()
 
         st.subheader("🎟️ Combinación generada:")
-        st.markdown(f"**Números:** {res['numeros']}  
-**Estrellas:** {res['estrellas']}")
+        st.markdown(f"**Números:** {res['numeros']}  **Estrellas:** {res['estrellas']}")
         st.subheader("📊 Análisis Predictivo")
         st.write(f"**Potencial de Acierto:** {res['potencial_acierto']}%")
         st.write(f"**Frecuentes:** {', '.join(map(str, res['frecuentes']))}")
