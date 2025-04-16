@@ -29,12 +29,12 @@ else:
     st.sidebar.image("img/hibridobarra.png", width=100)
     fondo = "img/fondo_hibrido.jpg"
 
-st.image(fondo, use_column_width=True)
+st.image(fondo, use_container_width=True)
 
 if st.button("🎰 Generar nueva combinación"):
     try:
         st.write("🔍 Generando combinación...")
-        pc = PredictorCombinaciones(df_euro)  # ✅ corregido
+        pc = PredictorCombinaciones(df_euro)
         if modo == "Aleatorio":
             res = pc.modo_aleatorio()
         elif modo == "Frecuencia":
@@ -42,9 +42,12 @@ if st.button("🎰 Generar nueva combinación"):
         else:
             res = pc.modo_hibrido()
 
-        st.success("✅ ¡Análisis realizado con éxito!")
-        st.subheader("🎟️ Combinación sugerida")
-        st.markdown(f"**Números:** {res['numeros']}  \n**Estrellas:** {res['estrellas']}")
-        st.write(f"📊 Potencial de Acierto: {res['potencial_acierto']}%")
+        if isinstance(res, dict) and "numeros" in res and "estrellas" in res:
+            st.success("✅ ¡Análisis realizado con éxito!")
+            st.subheader("🎟️ Combinación sugerida")
+            st.markdown(f"**Números:** {res['numeros']}  \n**Estrellas:** {res['estrellas']}")
+            st.write(f"📊 Potencial de Acierto: {res.get('potencial_acierto', 'N/A')}%")
+        else:
+            st.warning("⚠️ No se pudo generar una combinación válida. Verifica el predictor.")
     except Exception as e:
         st.error(f"❌ Error al generar combinación: {e}")
