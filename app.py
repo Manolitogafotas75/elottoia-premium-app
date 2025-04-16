@@ -1,4 +1,5 @@
 import streamlit as st
+print('✅ Versión corregida cargada')
 import matplotlib.pyplot as plt
 import random
 import time
