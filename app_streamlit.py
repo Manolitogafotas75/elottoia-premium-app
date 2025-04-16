@@ -6,13 +6,6 @@ from simulador_predictivo import PredictorCombinaciones
 
 st.set_page_config(page_title="ElottoIA Premium", layout="wide")
 
-st.markdown("""<style>
-[data-testid="stAppViewContainer"] {
-    background-color: #000;
-    color: white;
-}
-</style>""", unsafe_allow_html=True)
-
 st.title("🤖 ElottoIA Premium")
 st.write("🔄 Cargando aplicación...")
 
@@ -36,20 +29,12 @@ else:
     st.sidebar.image("img/hibridobarra.png", width=100)
     fondo = "img/fondo_hibrido.jpg"
 
-st.markdown(f"""
-<style>
-[data-testid="stAppViewContainer"] {{
-    background-image: url('{fondo}');
-    background-size: cover;
-    background-position: center;
-}}
-</style>
-""", unsafe_allow_html=True)
+st.image(fondo, use_column_width=True)
 
 if st.button("🎰 Generar nueva combinación"):
     try:
         st.write("🔍 Generando combinación...")
-        pc = PredictorCombinaciones()
+        pc = PredictorCombinaciones(df_euro)  # ✅ corregido
         if modo == "Aleatorio":
             res = pc.modo_aleatorio()
         elif modo == "Frecuencia":
