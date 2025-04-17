@@ -1086,10 +1086,10 @@ def main(idioma):
         st.image('aleatoriobarra.png', width=60)
     with col_r2:
         with st.container():
-        st.markdown('<div class="modo-btn aleatorio-btn">', unsafe_allow_html=True)
-        if st.button('Aleatorio', key='btn_aleatorio'):
-            modo = 'Aleatorio'
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="modo-btn aleatorio-btn">', unsafe_allow_html=True)
+    if st.button('Aleatorio', key='btn_aleatorio'):
+        modo = 'Aleatorio'
+    st.markdown('</div>', unsafe_allow_html=True)
             st.session_state['modo'] = 'Aleatorio'
     st.sidebar.markdown(sidebar_text['random_mode'])
 
@@ -1099,10 +1099,10 @@ def main(idioma):
         st.image('frecuenciabarra.png', width=60)
     with col_f2:
         with st.container():
-        st.markdown('<div class="modo-btn frecuencia-btn">', unsafe_allow_html=True)
-        if st.button('Frecuencia', key='btn_frecuencia'):
-            modo = 'Frecuencia'
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="modo-btn frecuencia-btn">', unsafe_allow_html=True)
+    if st.button('Frecuencia', key='btn_frecuencia'):
+        modo = 'Frecuencia'
+    st.markdown('</div>', unsafe_allow_html=True)
             st.session_state['modo'] = 'Frecuencia'
     st.sidebar.markdown(sidebar_text['frequency_mode'])
 
@@ -1112,10 +1112,10 @@ def main(idioma):
         st.image('hibridobarra.png', width=60)
     with col_h2:
         with st.container():
-        st.markdown('<div class="modo-btn hibrido-btn">', unsafe_allow_html=True)
-        if st.button('Híbrido', key='btn_hibrido'):
-            modo = 'Híbrido'
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="modo-btn hibrido-btn">', unsafe_allow_html=True)
+    if st.button('Híbrido', key='btn_hibrido'):
+        modo = 'Híbrido'
+    st.markdown('</div>', unsafe_allow_html=True)
             st.session_state['modo'] = 'Híbrido'
     st.sidebar.markdown(sidebar_text['hybrid_mode'])
 
