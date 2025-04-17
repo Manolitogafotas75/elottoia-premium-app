@@ -1,7 +1,4 @@
-import streamlit as st
-st.set_page_config(page_title="LottoIA v1.6.0 PRO", layout="centered")
 
-# 🚀 Branding ElottoIA
 st.image("img/elottoia_logo.png", width=300)
 st.markdown("<h3 style='color:#FFD700;'>🎯 Tu aliado inteligente para el Euromillones</h3>", unsafe_allow_html=True)
 st.markdown("---")
