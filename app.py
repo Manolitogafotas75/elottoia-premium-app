@@ -1,8 +1,8 @@
 import streamlit as st
-# 🚀 Branding ElottoIA
-st.image("img/elottoia_logo.png", width=300)
-st.markdown("<h3 style='color:#FFD700;'>🎯 Tu aliado inteligente para el Euromillones</h3>", unsafe_allow_html=True)
-st.markdown("---")
+
+from traducciones import idiomas
+lang = st.sidebar.selectbox("🌍 Idioma / Language", list(idiomas.keys()))
+tr = idiomas[lang]
 
 import matplotlib.pyplot as plt
 import random
@@ -20,7 +20,7 @@ from simulador_predictivo import PredictorCombinaciones
 # ============================================
 # 🏗️ Configuración de la aplicación
 # ============================================
-
+st.set_page_config(page_title="LottoIA v1.6.0 PRO", layout="centered")
 
 def set_background(image_file):
     """Función mejorada para cargar fondos"""
@@ -64,13 +64,13 @@ backgrounds = {
 
 claves_totales = {
     "access": {
-        "Español": "🕵️ Acceso autorizado: Usuario Premium",
-        "English": "🕵️ Access authorized: Premium User",
-        "Français": "🕵️ Accès autorisé : Utilisateur Premium",
-        "Italiano": "🕵️ Accesso autorizzato: Utente Premium",
-        "Deutsch": "🕵️ Zugriff autorisiert: Premium-Benutzer",
-        "Português": "🕵️ Acesso autorizado: Usuário Premium",
-        "Nederlands": "🕵️ Toegang toegestaan: Premium-gebruiker"
+        "Español": "🕵️ Acceso autorizado: IA13 PRO",
+        "English": "🕵️ Access authorized: IA13 PRO",
+        "Français": "🕵️ Accès autorisé : IA13 PRO",
+        "Italiano": "🕵️ Accesso autorizzato: IA13 PRO",
+        "Deutsch": "🕵️ Zugriff autorisiert: IA13 PRO",
+        "Português": "🕵️ Acesso autorizado: IA13 PRO",
+        "Nederlands": "🕵️ Toegang toegestaan: IA13 PRO"
     },
     "init": {
         "Español": "Iniciando análisis predictivo de patrones...",
@@ -1123,8 +1123,7 @@ def main():
     # Contenido principal
     st.markdown("""<div style='position: absolute; top: 10px; right: 20px; background-color: #ff0040;
     color: white; padding: 8px 14px; border-radius: 8px; font-family: monospace; font-size: 16px; box-shadow: 2px 2px 10px #000; z-index:999;'>
-    🟢 ELOTTOIA <br><span style='font-size: 12px;'>Terminal IA Active</span></div>""", unsafe_allow_html=True)
-
+    🔴 IA13 PRO<br><span style='font-size: 12px;'>Terminal Local Edition</span></div>""", unsafe_allow_html=True)
 
     # Mostrar mensajes de inicio
     for msg, delay in zip(['access', 'init', 'success'], [0.5, 1, 1.2]):
