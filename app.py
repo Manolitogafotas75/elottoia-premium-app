@@ -2,21 +2,21 @@ import streamlit as st
 
 st.markdown("""
     <style>
-    .modo-btn button {
-        color: transparent;
-        font-size: 16px;
+    div.stButton > button {
         height: 60px;
-        border-radius: 12px;
+        font-size: 16px;
         font-weight: bold;
+        border-radius: 12px;
+        color: transparent;
     }
-    .aleatorio-btn button {
-        background-color: #FFD700;
+    div[data-testid="stButton"][key="btn_aleatorio"] > button {
+        background-color: #FFD700 !important;
     }
-    .frecuencia-btn button {
-        background-color: #0B2944;
+    div[data-testid="stButton"][key="btn_frecuencia"] > button {
+        background-color: #0B2944 !important;
     }
-    .hibrido-btn button {
-        background-color: #4CAF50;
+    div[data-testid="stButton"][key="btn_hibrido"] > button {
+        background-color: #4CAF50 !important;
     }
     </style>
 """, unsafe_allow_html=True)
