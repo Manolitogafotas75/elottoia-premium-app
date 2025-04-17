@@ -1,4 +1,5 @@
-
+import streamlit as st
+# 🚀 Branding ElottoIA
 st.image("img/elottoia_logo.png", width=300)
 st.markdown("<h3 style='color:#FFD700;'>🎯 Tu aliado inteligente para el Euromillones</h3>", unsafe_allow_html=True)
 st.markdown("---")
