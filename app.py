@@ -1009,9 +1009,7 @@ def cargar_datos_frecuencia():
 # 🖥️ Interfaz de usuario principal (Actualizada)
 # ============================================
 
-def main(idioma):
-    sidebar_text = traducciones_completas[idioma]["sidebar"]
-    sidebar_text = traducciones_completas[idioma]["sidebar"]
+def main():
     # Configuración inicial
     if 'historial' not in st.session_state:
         st.session_state.historial = []
@@ -1085,11 +1083,7 @@ def main(idioma):
     with col_r1:
         st.image('aleatoriobarra.png', width=60)
     with col_r2:
-        with st.container():
-    st.markdown('<div class="modo-btn aleatorio-btn">', unsafe_allow_html=True)
-    if st.button('Aleatorio', key='btn_aleatorio'):
-        modo = 'Aleatorio'
-    st.markdown('</div>', unsafe_allow_html=True)
+        if st.button('Aleatorio', key='btn_aleatorio'):
             st.session_state['modo'] = 'Aleatorio'
     st.sidebar.markdown(sidebar_text['random_mode'])
 
@@ -1098,11 +1092,7 @@ def main(idioma):
     with col_f1:
         st.image('frecuenciabarra.png', width=60)
     with col_f2:
-        with st.container():
-    st.markdown('<div class="modo-btn frecuencia-btn">', unsafe_allow_html=True)
-    if st.button('Frecuencia', key='btn_frecuencia'):
-        modo = 'Frecuencia'
-    st.markdown('</div>', unsafe_allow_html=True)
+        if st.button('Frecuencia', key='btn_frecuencia'):
             st.session_state['modo'] = 'Frecuencia'
     st.sidebar.markdown(sidebar_text['frequency_mode'])
 
@@ -1111,11 +1101,7 @@ def main(idioma):
     with col_h1:
         st.image('hibridobarra.png', width=60)
     with col_h2:
-        with st.container():
-    st.markdown('<div class="modo-btn hibrido-btn">', unsafe_allow_html=True)
-    if st.button('Híbrido', key='btn_hibrido'):
-        modo = 'Híbrido'
-    st.markdown('</div>', unsafe_allow_html=True)
+        if st.button('Híbrido', key='btn_hibrido'):
             st.session_state['modo'] = 'Híbrido'
     st.sidebar.markdown(sidebar_text['hybrid_mode'])
 
@@ -1349,4 +1335,4 @@ def main(idioma):
         st.error(f"Error en el análisis avanzado: {str(e)}")
 
 if __name__ == '__main__':
-    main(idioma)
+    main()
