@@ -987,7 +987,8 @@ def cargar_datos_frecuencia():
 # 🖥️ Interfaz de usuario principal (Actualizada)
 # ============================================
 
-def main():
+def main(idioma):
+    sidebar_text = traducciones_completas[idioma]["sidebar"]
     sidebar_text = traducciones_completas[idioma]["sidebar"]
     # Configuración inicial
     if 'historial' not in st.session_state:
@@ -1314,4 +1315,4 @@ def main():
         st.error(f"Error en el análisis avanzado: {str(e)}")
 
 if __name__ == '__main__':
-    main()
+    main(idioma)
