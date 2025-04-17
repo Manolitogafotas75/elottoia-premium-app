@@ -1313,4 +1313,5 @@ def main():
         st.error(f"Error en el análisis avanzado: {str(e)}")
 
 if __name__ == '__main__':
-    main()
+    main(sidebar_text = traducciones_completas[idioma]["sidebar"]
+)
