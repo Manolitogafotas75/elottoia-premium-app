@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(page_title="LottoIA v1.6.0 PRO", layout="centered")
 
 from traducciones import idiomas
 lang = st.sidebar.selectbox("🌍 Idioma / Language", list(idiomas.keys()))
@@ -20,7 +21,7 @@ from simulador_predictivo import PredictorCombinaciones
 # ============================================
 # 🏗️ Configuración de la aplicación
 # ============================================
-st.set_page_config(page_title="LottoIA v1.6.0 PRO", layout="centered")
+
 
 def set_background(image_file):
     """Función mejorada para cargar fondos"""
