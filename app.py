@@ -1123,7 +1123,8 @@ def main():
     # Contenido principal
     st.markdown("""<div style='position: absolute; top: 10px; right: 20px; background-color: #ff0040;
     color: white; padding: 8px 14px; border-radius: 8px; font-family: monospace; font-size: 16px; box-shadow: 2px 2px 10px #000; z-index:999;'>
-    🔴 ELOTTOIA <br><span style='font-size: 12px;'>Terminal IA Active</span></div>""", unsafe_allow_html=True)
+    🟢 ELOTTOIA <br><span style='font-size: 12px;'>Terminal IA Active</span></div>""", unsafe_allow_html=True)
+
 
     # Mostrar mensajes de inicio
     for msg, delay in zip(['access', 'init', 'success'], [0.5, 1, 1.2]):
