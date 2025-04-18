@@ -1032,30 +1032,30 @@ def main():
     st.sidebar.title(sidebar_text['config_title'])
 
     st.markdown("""
-        <style>
-        button[aria-label="btn_aleatorio"] {
-            background-color: red !important;
-            color: transparent !important;
-            font-size: 0 !important;
-            height: 40px !important;
-            border-radius: 6px !important;
-        }
-        button[aria-label="btn_frecuencia"] {
-            background-color: gold !important;
-            color: transparent !important;
-            font-size: 0 !important;
-            height: 40px !important;
-            border-radius: 6px !important;
-        }
-        button[aria-label="btn_hibrido"] {
-            background-color: orange !important;
-            color: transparent !important;
-            font-size: 0 !important;
-            height: 40px !important;
-            border-radius: 6px !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    <style>
+    [data-testid="stSidebar"] .stButton:nth-of-type(1) button {
+        background-color: #FFD700 !important;  
+        color: transparent !important;
+        font-size: 0 !important;        
+        border-radius: 6px !important;
+        height: 40px !important;
+    }
+    [data-testid="stSidebar"] .stButton:nth-of-type(2) button {
+        background-color: #0B2944 !important;  
+        color: transparent !important;
+        font-size: 0 !important;  
+        border-radius: 6px !important;
+        height: 40px !important;
+    }
+    [data-testid="stSidebar"] .stButton:nth-of-type(3) button {
+        background-color: #4CAF50 !important;  
+        color: transparent !important;
+        font-size: 0 !important;       
+        border-radius: 6px !important;
+        height: 40px !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
         
     st.markdown("""
         <style>
