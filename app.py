@@ -23,7 +23,7 @@ st.markdown("""
 
 # 🚀 Branding ElottoIA
 st.image("img/elottoia_logo.png", width=300)
-st.markdown(f"<h3 style='color:#FFD700;'>'Tu aliado inteligente para jugar a Euromillones'</h3>", unsafe_allow_html=True)
+st.markdown(f"<h3 style='color:#FFD700;'>Tu aliado inteligente para jugar a Euromillones</h3>", unsafe_allow_html=True)
 st.markdown("---")
 
 import matplotlib.pyplot as plt
