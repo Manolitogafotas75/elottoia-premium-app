@@ -21,6 +21,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# 🚀 Branding ElottoIA
+st.image("img/elottoia_logo.png", width=300)
+st.markdown("<h3 style='color:#FFD700;'>🎯 Tu aliado inteligente para el Euromillones</h3>", unsafe_allow_html=True)
+st.markdown("---")
+
 import matplotlib.pyplot as plt
 import random
 import time
@@ -33,23 +38,53 @@ from collections import Counter, defaultdict
 import re
 import os
 from simulador_predictivo import PredictorCombinaciones  
-from translations import claves_totales, traducciones_completas
-idioma = "Español"
+
+# ============================================
+# 🏗️ Configuración de la aplicación
+# ============================================
+
+
+def set_background(image_file):
+    """Función mejorada para cargar fondos"""
+    try:
+        if not os.path.exists(image_file):
+            # Crear fondo por defecto si no existe
+            st.markdown("""
+            <style>
+            .stApp {
+                background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+            }
+            </style>
+            """, unsafe_allow_html=True)
+            st.warning(f"Archivo {image_file} no encontrado. Usando fondo predeterminado.")
+            return
+
+        with open(image_file, "rb") as f:
+            b64 = base64.b64encode(f.read()).decode()
+            st.markdown(f"""
+            <style>
+            .stApp {{
+                background-image: url("data:image/jpg;base64,{b64}");
+                background-size: cover;
+                background-attachment: fixed;
+            }}
+            </style>
+            """, unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Error cargando fondo: {str(e)}")
+
+# Configuración de fondos
+backgrounds = {
+    "Aleatorio": "fondo_aleatorio.jpg",
+    "Frecuencia": "fondo_frecuencia.jpg",
+    "Híbrido": "fondo_hibrido.jpg"
+}
+
 # ============================================
 # 🌍 Sistema de traducciones completo (Actualizado)
 # ============================================
 
 claves_totales = {
-        "Tu aliado inteligente para jugar a Euromillones": {
-            "Español": "🎯 Tu aliado inteligente para jugar a Euromillones",
-            "English": "🎯 Your smart ally for playing Euro Millions",
-            "Français": "🎯 Ton allié intelligent pour jouer à Euro Millions",
-            "Italiano": "🎯 Il tuo alleato intelligente per giocare a EuroMillions",
-            "Deutsch": "🎯 Dein intelligenter Verbündeter, um Euro Millionen zu spielen",
-            "Português": "🎯 O seu aliado inteligente para jogar no Euromilhões",
-            "Nederlands": "🎯 Jouw intelligente bondgenoot om Euro Millions te spelen"
-            
-     },  
     "access": {
         "Español": "🕵️ Acceso autorizado: Usuario Premium",
         "English": "🕵️ Access authorized: Premium User",
@@ -58,8 +93,7 @@ claves_totales = {
         "Deutsch": "🕵️ Zugriff autorisiert: Premium-Benutzer",
         "Português": "🕵️ Acesso autorizado: Usuário Premium",
         "Nederlands": "🕵️ Toegang toegestaan: Premium-gebruiker"
-
-     },
+    },
     "init": {
         "Español": "Iniciando análisis predictivo de patrones...",
         "English": "Initializing predictive pattern analysis...",
@@ -909,63 +943,20 @@ claves_totales = {
         }
     }
 }
-traducciones_completas = {}
-idiomas_disponibles = ["Español", "English", "Français", "Italiano", "Deutsch", "Português", "Nederlands"]  # Todos los idiomas que uses
 
-for idioma in idiomas_disponibles:
+traducciones_completas = {}
+for idioma in claves_totales["access"].keys():
     traducciones_completas[idioma] = {}
     for clave, trad in claves_totales.items():
-        if isinstance(trad, dict):
-            # Versión segura que evita errores:
-            traducciones_completas[idioma][clave] = trad.get(idioma, trad.get("Español", f"[Traducción faltante: {clave}]"))
-            
-# 🚀 Branding ElottoIA
-st.image("img/elottoia_logo.png", width=300)
-st.markdown(f"<h3 style='color:#FFD700;'>{traducciones_completas[idioma]['Tu aliado inteligente para jugar a Euromillones']}</h3>",unsafe_allow_html=True)
-st.markdown("---")
-
-# ============================================
-# 🏗️ Configuración de la aplicación
-# ============================================
-
-
-def set_background(image_file):
-    """Función mejorada para cargar fondos"""
-    try:
-        if not os.path.exists(image_file):
-            # Crear fondo por defecto si no existe
-            st.markdown("""
-            <style>
-            .stApp {
-                background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+        if isinstance(trad, dict) and all(isinstance(v, dict) for v in trad.values()):
+            # Es un diccionario anidado (como 'sidebar')
+            traducciones_completas[idioma][clave] = {
+                subclave: subval.get(idioma, subval.get("Español", f"[{subclave}]"))
+                for subclave, subval in trad.items()
             }
-            </style>
-            """, unsafe_allow_html=True)
-            st.warning(f"Archivo {image_file} no encontrado. Usando fondo predeterminado.")
-            return
+        else:
+            traducciones_completas[idioma][clave] = trad.get(idioma, trad.get("Español", f"[{clave}]"))
 
-        with open(image_file, "rb") as f:
-            b64 = base64.b64encode(f.read()).decode()
-            st.markdown(f"""
-            <style>
-            .stApp {{
-                background-image: url("data:image/jpg;base64,{b64}");
-                background-size: cover;
-                background-attachment: fixed;
-            }}
-            </style>
-            """, unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"Error cargando fondo: {str(e)}")
-
-# Configuración de fondos
-backgrounds = {
-    "Aleatorio": "fondo_aleatorio.jpg",
-    "Frecuencia": "fondo_frecuencia.jpg",
-    "Híbrido": "fondo_hibrido.jpg"
-}
-
-        
 # ============================================
 # 🎰 Funciones principales del juego
 # ============================================
