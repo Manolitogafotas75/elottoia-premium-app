@@ -21,11 +21,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 🚀 Branding ElottoIA
-st.image("img/elottoia_logo.png", width=300)
-st.markdown(f"<h3 style='color:#FFD700;'>{traducciones_completas[idioma]['Tu aliado inteligente para jugar a Euromillones']}</h3>",unsafe_allow_html=True)
-st.markdown("---")
-
 import matplotlib.pyplot as plt
 import random
 import time
@@ -920,7 +915,11 @@ for idioma in claves_totales["Tu aliado inteligente para jugar a Euromillones"].
     for clave, trad in claves_totales.items():
         if isinstance(trad, dict):
             traducciones_completas[idioma][clave] = trad.get(idioma, trad["Español"])
-
+            
+# 🚀 Branding ElottoIA
+st.image("img/elottoia_logo.png", width=300)
+st.markdown(f"<h3 style='color:#FFD700;'>{traducciones_completas[idioma]['Tu aliado inteligente para jugar a Euromillones']}</h3>",unsafe_allow_html=True)
+st.markdown("---")
 
 # ============================================
 # 🏗️ Configuración de la aplicación
