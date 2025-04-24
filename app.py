@@ -94,6 +94,15 @@ claves_totales = {
         "Português": "🕵️ Acesso autorizado: Usuário Premium",
         "Nederlands": "🕵️ Toegang toegestaan: Premium-gebruiker"
     },
+    "Branding ElottoIA": {
+        "Español": "🎯 Tu aliado inteligente para jugar a Euromillones",
+        "English": "🎯 Your smart ally for playing Euro Millions",
+        "Français": "🎯 Ton allié intelligent pour jouer à Euro Millions",
+        "Italiano": "🎯 Il tuo alleato intelligente per giocare a EuroMillions",
+        "Deutsch": "🎯 Dein intelligenter Verbündeter, um Euro Millionen zu spielen",
+        "Português": "🎯 O seu aliado inteligente para jogar no Euromilhões",
+        "Nederlands": "🎯 Jouw intelligente bondgenoot om Euro Millions te spelen"
+     },
     "init": {
         "Español": "Iniciando análisis predictivo de patrones...",
         "English": "Initializing predictive pattern analysis...",
