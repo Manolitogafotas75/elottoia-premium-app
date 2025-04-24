@@ -910,11 +910,14 @@ claves_totales = {
     }
 }
 traducciones_completas = {}
-for idioma in claves_totales["Tu aliado inteligente para jugar a Euromillones"].keys():
+idiomas_disponibles = ["Español", "English", "Français", "Italiano", "Deutsch", "Português", "Nederlands"]  # Todos los idiomas que uses
+
+for idioma in idiomas_disponibles:
     traducciones_completas[idioma] = {}
     for clave, trad in claves_totales.items():
         if isinstance(trad, dict):
-            traducciones_completas[idioma][clave] = trad.get(idioma, trad["Español"])
+            # Versión segura que evita errores:
+            traducciones_completas[idioma][clave] = trad.get(idioma, trad.get("Español", f"[Traducción faltante: {clave}]"))
             
 # 🚀 Branding ElottoIA
 st.image("img/elottoia_logo.png", width=300)
