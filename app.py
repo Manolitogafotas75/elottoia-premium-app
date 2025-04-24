@@ -953,19 +953,17 @@ claves_totales = {
     }
 }
 
-traducciones_completas = {}
 for idioma in claves_totales["access"].keys():
     traducciones_completas[idioma] = {}
     for clave, trad in claves_totales.items():
-        if isinstance(trad, dict) and all(isinstance(v, dict) for v in trad.values()):
-            # Es un diccionario anidado (como 'sidebar')
-            traducciones_completas[idioma][clave] = {
-                subclave: subval.get(idioma, subval.get("Español", f"[{subclave}]"))
-                for subclave, subval in trad.items()
-            }
-        else:
-            traducciones_completas[idioma][clave] = trad.get(idioma, trad.get("Español", f"[{clave}]"))
-
+        if isinstance(trad, dict):
+            if all(k in trad for k in ["Español", "English"]):  # Es una traducción
+                traducciones_completas[idioma][clave] = trad.get(idioma, trad["Español"])
+            else:  # Es un diccionario anidado (como 'sidebar')
+                traducciones_completas[idioma][clave] = {
+                    subclave: subval.get(idioma, subval.get("Español", f"[{subclave}]"))
+                    for subclave, subval in trad.items()
+                }
 # ============================================
 # 🎰 Funciones principales del juego
 # ============================================
