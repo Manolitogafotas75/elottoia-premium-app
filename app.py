@@ -789,7 +789,7 @@ claves_totales = {
         "Português": "📊 Análise Preditiva Avançada",
         "Nederlands": "📊 Geavanceerde Voorspellende Analyse"
     },
-    "sidebar_text": {
+    "sidebar": {
         "config_title": {
             "Español": "⚙️ Configuración IA",
             "English": "⚙️ AI Settings",
