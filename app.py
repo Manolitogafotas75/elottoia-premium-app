@@ -33,8 +33,8 @@ from collections import Counter, defaultdict
 import re
 import os
 from simulador_predictivo import PredictorCombinaciones  
-
-
+from translations import claves_totales, traducciones_completas
+idioma = "Español"
 # ============================================
 # 🌍 Sistema de traducciones completo (Actualizado)
 # ============================================
@@ -789,7 +789,7 @@ claves_totales = {
         "Português": "📊 Análise Preditiva Avançada",
         "Nederlands": "📊 Geavanceerde Voorspellende Analyse"
     },
-    "sidebar": {
+    "sidebar_text": {
         "config_title": {
             "Español": "⚙️ Configuración IA",
             "English": "⚙️ AI Settings",
