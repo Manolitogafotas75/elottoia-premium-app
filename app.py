@@ -952,7 +952,7 @@ claves_totales = {
         }
     }
 }
-
+traducciones_completas = {}
 for idioma in claves_totales["access"].keys():
     traducciones_completas[idioma] = {}
     for clave, trad in claves_totales.items():
