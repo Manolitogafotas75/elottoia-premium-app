@@ -953,17 +953,12 @@ claves_totales = {
     }
 }
 traducciones_completas = {}
-for idioma in claves_totales["access"].keys():
+for idioma in claves_totales["Tu aliado inteligente para jugar a Euromillones"].keys():
     traducciones_completas[idioma] = {}
     for clave, trad in claves_totales.items():
         if isinstance(trad, dict):
-            if all(k in trad for k in ["Español", "English"]):  # Es una traducción
-                traducciones_completas[idioma][clave] = trad.get(idioma, trad["Español"])
-            else:  # Es un diccionario anidado (como 'sidebar')
-                traducciones_completas[idioma][clave] = {
-                    subclave: subval.get(idioma, subval.get("Español", f"[{subclave}]"))
-                    for subclave, subval in trad.items()
-                }
+            traducciones_completas[idioma][clave] = trad.get(idioma, trad["Español"])
+        
 # ============================================
 # 🎰 Funciones principales del juego
 # ============================================
