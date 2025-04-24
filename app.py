@@ -36,7 +36,7 @@ from simulador_predictivo import PredictorCombinaciones
 from translations import claves_totales, traducciones_completas
 idioma = "Español"
 # ============================================
-# 🌍 Sistema de traducciones completo (Actualizado)
+# 🌍 translations 
 # ============================================
 
 claves_totales = {
