@@ -7,7 +7,7 @@ st.markdown("""
         font-size: 16px;
         font-weight: bold;
         border-radius: 12px;
-        color: transparent;
+        
     }
     div[data-testid="stButton"][key="btn_aleatorio"] > button {
         background-color: #FFD700 !important;
