@@ -20,10 +20,17 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
+def main():
+    # 🔥 AÑADIR AQUÍ LA ALERTA
+    st.markdown("""
+    <div style="background-color:#ffd500; padding:15px; border-radius:10px; text-align:center;">
+        <h3 style="color:black;">🎯 ¡Nuevo en ElottoIA Premium!</h3>
+        <p style="color:black; font-size:18px;">Ahora puedes aplicar <strong>Filtros Personalizados</strong> a tus combinaciones: pares, impares, consecutivos y mucho más. ¡Optimiza tu jugada como nunca antes! 🧠✨</p>
+    </div>
+    """, unsafe_allow_html=True)
 # 🚀 Branding ElottoIA
 st.image("img/elottoia_logo.png", width=300)
-st.markdown("<h3 style='color:#FFD700;'>🎯 Tu aliado inteligente para el Euromillones</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='color:#FFD700;'>🎯 ¡ElottoIA Premium! Tu aliado inteligente para juagar a Euromillones</h3>", unsafe_allow_html=True)
 st.markdown("---")
 
 import matplotlib.pyplot as plt
@@ -1113,7 +1120,6 @@ def main():
 
     set_background(backgrounds.get(mode, backgrounds['Aleatorio']))
 
-    # ... (resto del código de la aplicación se mantiene igual)
     # Sección del archivo neural
     with st.sidebar.expander(sidebar_text['neural_title']):
         try:
@@ -1207,9 +1213,90 @@ def main():
                         st.write(analisis["pares_riesgo"])
         except Exception as e:
             st.error(f"Error en análisis predictivo: {str(e)}")
+        # ==========================================
+        # 🎯 Después de generar la combinación
+        # Mostrar la opción de aplicar filtros personalizados
+        # ==========================================
 
-    # Análisis de frecuencia
-    st.markdown('---')
+    if 'ultima_combinacion' in st.session_state and st.session_state.ultima_combinacion:
+        st.markdown('---')
+        st.subheader("🎯 ¿Quieres aplicar un Análisis de Filtros Personalizados a esta combinación?")
+    with st.expander("🎛️ Filtros Personalizados para tu Combinación", expanded=False):
+      with st.form("formulario_filtros_personalizados"):
+        tipo_numeros = st.radio("🧮 Tipo de Números:", ["Pares", "Impares", "Mezcla equilibrada"])
+        consecutivos = st.radio("🔗 Secuencias Consecutivas:", ["Permitir consecutivos", "Evitar consecutivos"])
+        suma_min = st.number_input("➗ Suma mínima de números (opcional)", min_value=0, max_value=500, value=0, step=1)
+        suma_max = st.number_input("➗ Suma máxima de números (opcional)", min_value=0, max_value=500, value=500, step=1)
+
+        
+        submit_filtros = st.form_submit_button("Aplicar Filtros Ahora")
+    
+    if submit_filtros:
+        try:
+            # Extraer los números de la combinación (asumiendo formato "1-2-3-4-5⭐Extra1-Extra2")
+            parte_numeros = st.session_state.ultima_combinacion.split('⭐')[0]
+            numeros = [int(x) for x in parte_numeros.split('-')]
+            cumple_filtros = True
+
+            # 1. Filtro pares/impares
+            pares = [n for n in numeros if n % 2 == 0]
+            impares = [n for n in numeros if n % 2 != 0]
+
+            if tipo_numeros == "Pares" and len(pares) < len(impares):
+                cumple_filtros = False
+            elif tipo_numeros == "Impares" and len(impares) < len(pares):
+                cumple_filtros = False
+            elif tipo_numeros == "Mezcla equilibrada" and abs(len(pares) - len(impares)) > 1:
+                cumple_filtros = False
+
+            # 2. Filtro consecutivos
+            numeros_ordenados = sorted(numeros)
+            consecutivos_detectados = any(
+                numeros_ordenados[i] + 1 == numeros_ordenados[i + 1]
+                for i in range(len(numeros_ordenados) - 1)
+            )
+            
+            if consecutivos == "Evitar consecutivos" and consecutivos_detectados:
+                cumple_filtros = False
+            elif consecutivos == "Permitir consecutivos" and not consecutivos_detectados:
+                cumple_filtros = False
+
+            # 3. Filtro suma total
+            suma_total = sum(numeros)
+            if suma_min > 0 and suma_total < suma_min:
+                cumple_filtros = False
+            if suma_max < 500 and suma_total > suma_max:
+                cumple_filtros = False
+
+            # Mostrar resultados
+            if cumple_filtros:
+                st.success("✅ ¡La combinación cumple todos los filtros seleccionados!")
+                st.write("🔢 Combinación analizada:", st.session_state.ultima_combinacion)
+                st.write(f"📊 Detalles: {len(pares)} pares, {len(impares)} impares, Suma total: {suma_total}")
+            else:
+                st.error("❌ Esta combinación NO cumple los filtros. Intenta generar otra o relajar los filtros.")
+                st.write("🔍 Razones:")
+                if tipo_numeros == "Pares" and len(pares) < len(impares):
+                    st.write("- No tiene mayoría de números pares")
+                elif tipo_numeros == "Impares" and len(impares) < len(pares):
+                    st.write("- No tiene mayoría de números impares")
+                if consecutivos == "Evitar consecutivos" and consecutivos_detectados:
+                    st.write("- Contiene números consecutivos")
+                if suma_min > 0 and suma_total < suma_min:
+                    st.write(f"- Suma total ({suma_total}) menor que el mínimo requerido ({suma_min})")
+                if suma_max < 500 and suma_total > suma_max:
+                    st.write(f"- Suma total ({suma_total}) mayor que el máximo permitido ({suma_max})")
+        
+        except Exception as e:
+            st.error(f"Error al procesar la combinación: {str(e)}")
+
+    st.markdown("---")
+    st.header("📊 Análisis Estadístico de Frecuencia")
+    st.info("""
+    Explora los datos históricos de Euromillones para mejorar tu estrategia de combinaciones.
+    Aquí encontrarás la frecuencia de aparición de números y estrellas, así como gráficas interactivas que te permitirán analizar patrones de forma visual.
+    """)
+    st.markdown("---")
     st.header(text['frequency_heatmap'])
     try:
         with open('euromillones_convertido.txt', 'r', encoding='utf-8') as f:
