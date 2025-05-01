@@ -32,6 +32,15 @@ def main():
 st.image("img/elottoia_logo.png", width=300)
 st.markdown("<h3 style='color:#FFD700;'>🎯 ¡ElottoIA Premium! Tu aliado inteligente para juagar a Euromillones</h3>", unsafe_allow_html=True)
 st.markdown("---")
+def generar_combinacion_con_suma_en_rango(mode, suma_min=130, suma_max=135, max_intentos=100):
+    for _ in range(max_intentos):
+        combinacion = generar_combinacion(mode)
+        numeros = [int(x) for x in combinacion.split("⭐")[0].split("-")]
+        suma = sum(numeros)
+        if suma_min <= suma <= suma_max:
+            return combinacion
+    # fallback si no encuentra una combinación válida tras max_intentos
+    return generar_combinacion(mode)
 
 import matplotlib.pyplot as plt
 import random
