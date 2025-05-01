@@ -882,13 +882,13 @@ claves_totales = {
             "Nederlands": "_**Frequentie**_: Gebaseerd op historisch meest voorkomende nummers."
         },
         "hybrid_mode": {
-            "Español": "_**Híbrido**_: Mezcla de azar y lógica estadística.",
-            "English": "_**Hybrid**_: Mix of randomness and statistical logic.",
-            "Français": "_**Hybride**_: Mélange d'aléatoire et de logique statistique.",
-            "Italiano": "_**Ibrido**_: Miscela di casualità e logica statistica.",
-            "Deutsch": "_**Hybrid**_: Mischung aus Zufall und statistischer Logik.",
-            "Português": "_**Híbrido**_: Mistura de aleatoriedade e lógica estatística.",
-            "Nederlands": "_**Hybride**_: Mix van willekeur en statistische logica."
+            "Español": "_**Híbrido**_:Mezcla de Azar y Frecuencia optimizada con IA.",
+            "English": "_**Hybrid**_: AI-optimized Random and Frequency Mix.",
+            "Français": "_**Hybride**_:Mixage aléatoire et fréquentiel optimisé par l'IA.",
+            "Italiano": "_**Ibrido**_: Mix casuale e di frequenza ottimizzato dall'intelligenza artificiale.",
+            "Deutsch": "_**Hybrid**_:KI-optimierter Zufalls- und Frequenzmix.",
+            "Português": "_**Híbrido**_: Mix aleatório e de frequência otimizado por IA.",
+            "Nederlands": "_**Hybride**_: AI-geoptimaliseerde willekeurige en frequentiemix."
         },
         "mode_label": {
             "Español": "Modo de generación",
