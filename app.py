@@ -1161,13 +1161,26 @@ def main():
 
     st.markdown('---')
     st.markdown(f"#### {text['combo']}")
-
+    def generar_combinacion_con_suma_en_rango(mode, suma_min=130, suma_max=135, max_intentos=100):
+    for _ in range(max_intentos):
+        combinacion = generar_combinacion(mode)
+        numeros = [int(x) for x in combinacion.split("⭐")[0].split("-")]
+        suma = sum(numeros)
+        if suma_min <= suma <= suma_max:
+            return combinacion
+    return None
     # Generar combinación
     if st.button(text['generate'], key='btn_generar_unico_123'):
-        combinacion = generar_combinacion(mode)
+    combinacion = generar_combinacion_con_suma_en_rango(mode)
+    if combinacion:
         st.session_state.ultima_combinacion = combinacion
         st.session_state.historial.append(combinacion)
         st.session_state.combinacion_generada = True
+        suma = sum([int(x) for x in combinacion.split("⭐")[0].split("-")])
+        st.caption(f"Suma total de los 5 números: {suma}")
+    else:
+        st.error("❌ No se pudo generar una combinación dentro del rango 130–135.")
+
 
     # Mostrar combinación generada
     if st.session_state.combinacion_generada:
