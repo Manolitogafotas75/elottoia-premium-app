@@ -32,15 +32,6 @@ def main():
 st.image("img/elottoia_logo.png", width=300)
 st.markdown("<h3 style='color:#FFD700;'>🎯 ¡ElottoIA Premium! Tu aliado inteligente para juagar a Euromillones</h3>", unsafe_allow_html=True)
 st.markdown("---")
-def generar_combinacion_con_suma_en_rango(mode, suma_min=130, suma_max=135, max_intentos=100):
-    for _ in range(max_intentos):
-        combinacion = generar_combinacion(mode)
-        numeros = [int(x) for x in combinacion.split("⭐")[0].split("-")]
-        suma = sum(numeros)
-        if suma_min <= suma <= suma_max:
-            return combinacion
-    # fallback si no encuentra una combinación válida tras max_intentos
-    return generar_combinacion(mode)
 
 import matplotlib.pyplot as plt
 import random
@@ -997,6 +988,18 @@ def generar_combinacion(modo):
         st.error(f"Error crítico al generar combinación: {str(e)}")
         # Combinación de emergencia garantizada
         return "1 - 2 - 3 - 4 - 5 ⭐ 1 - 2"
+def generar_combinacion_filtrada(modo, suma_min=130, suma_max=135, max_intentos=100):
+    for _ in range(max_intentos):
+        combinacion = generar_combinacion(modo)
+        try:
+            numeros = [int(x) for x in combinacion.split("⭐")[0].split("-")]
+            suma = sum(numeros)
+            if suma_min <= suma <= suma_max:
+                return combinacion
+        except:
+            continue
+    # Si tras muchos intentos no encuentra una válida, se devuelve la última sin filtrar
+    return generar_combinacion(modo)
 
 # ============================================
 # 📊 Funciones de análisis de datos
@@ -1170,19 +1173,13 @@ def main():
 
     st.markdown('---')
     st.markdown(f"#### {text['combo']}")
-        
+
     # Generar combinación
     if st.button(text['generate'], key='btn_generar_unico_123'):
-        combinacion = generar_combinacion_con_suma_en_rango(mode)
-    if combinacion:
+        combinacion = generar_combinacion_filtrada(mode)
         st.session_state.ultima_combinacion = combinacion
         st.session_state.historial.append(combinacion)
         st.session_state.combinacion_generada = True
-        suma = sum([int(x) for x in combinacion.split("⭐")[0].split("-")])
-        st.caption(f"Suma total de los 5 números: {suma}")
-    else:
-        st.error("❌ No se pudo generar una combinación dentro del rango 130–135.")
-
 
     # Mostrar combinación generada
     if st.session_state.combinacion_generada:
