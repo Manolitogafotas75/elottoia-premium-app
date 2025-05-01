@@ -2,13 +2,17 @@ import streamlit as st
 import pandas as pd
 
 @st.cache_data
-def obtener_numeros_frecuentes(csv_path="Historico.csv", top_n=15):
+def obtener_numeros_frecuentes(csv_path="Histórico.csv", top_n=15, tipo="numeros"):
     df = pd.read_csv(csv_path)
-    columnas_numeros = ['N1', 'N2', 'N3', 'N4', 'N5']
-    numeros = pd.concat([df[col] for col in columnas_numeros])
-    frecuentes = numeros.value_counts().head(top_n).index.tolist()
-    return frecuentes
 
+    if tipo == "numeros":
+        columnas = ['N1', 'N2', 'N3', 'N4', 'N5']
+    else:  # tipo == "estrellas"
+        columnas = ['E1', 'E2']
+
+    datos = pd.concat([df[col] for col in columnas])
+    frecuentes = datos.value_counts().head(top_n).index.tolist()
+    return frecuentes
 
 st.markdown("""
     <style>
