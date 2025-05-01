@@ -1161,14 +1161,14 @@ def main():
 
     st.markdown('---')
     st.markdown(f"#### {text['combo']}")
-    def generar_combinacion_con_suma_en_rango(mode, suma_min=130, suma_max=135, max_intentos=100):
-        for _ in range(max_intentos):
+   def generar_combinacion_con_suma_en_rango(mode, suma_min=130, suma_max=135, max_intentos=100):
+    for _ in range(max_intentos):
         combinacion = generar_combinacion(mode)
         numeros = [int(x) for x in combinacion.split("⭐")[0].split("-")]
         suma = sum(numeros)
         if suma_min <= suma <= suma_max:
             return combinacion
-        return None
+    return None
     # Generar combinación
     if st.button(text['generate'], key='btn_generar_unico_123'):
     combinacion = generar_combinacion_con_suma_en_rango(mode)
