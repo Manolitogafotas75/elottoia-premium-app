@@ -1168,7 +1168,7 @@ def main():
             suma = sum(numeros)
         if suma_min <= suma <= suma_max:
             return combinacion
-    return None
+    return generar_combinacion(mode)       
     # Generar combinación
     if st.button(text['generate'], key='btn_generar_unico_123'):
         combinacion = generar_combinacion_con_suma_en_rango(mode)
