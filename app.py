@@ -986,12 +986,22 @@ def generar_combinacion(modo):
     try:
         # Generación de números principales
         if modo == "Frecuencia":
-            nums = sorted(random.sample([14, 20, 23, 27, 48], 5))
-            stars = sorted(random.sample([2, 3, 9], 2))
+            frecuentes = obtener_numeros_frecuentes("Histórico.csv", top_n=15, tipo="numeros")
+            frecuentes_estrellas = obtener_numeros_frecuentes("Histórico.csv", top_n=5, tipo="estrellas")
+            nums = sorted(random.sample(frecuentes, 5))
+            stars = sorted(random.sample(frecuentes_estrellas, 2))
         elif modo == "Híbrido":
-            base = [14, 20, 23, 27, 48]
-            nums = sorted(random.sample(base + random.sample(range(1, 51), 5), 5))
-            stars = sorted(random.sample(range(1, 13), 2))
+            frecuentes = obtener_numeros_frecuentes("Histórico.csv", top_n=15, tipo="numeros")
+            frecuentes_estrellas = obtener_numeros_frecuentes("Histórico.csv", top_n=5, tipo="estrellas")
+
+            nums_base = random.sample(frecuentes, 3)
+            nums_extra = random.sample([n for n in range(1, 51) if n not in nums_base], 2)
+            nums = sorted(nums_base + nums_extra)
+
+            estrella_base = random.sample(frecuentes_estrellas, 1)
+            estrella_extra = random.sample([e for e in range(1, 13) if e not in estrella_base], 1)
+            stars = sorted(estrella_base + estrella_extra)
+
         else:  # Aleatorio
             nums = sorted(random.sample(range(1, 51), 5))
             stars = sorted(random.sample(range(1, 13), 2))
