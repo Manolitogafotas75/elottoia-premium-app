@@ -882,7 +882,7 @@ claves_totales = {
             "Nederlands": "_**Frequentie**_: Gebaseerd op historisch meest voorkomende nummers."
         },
         "hybrid_mode": {
-            "Español": "_**Híbrido**_:Mezcla de Azar y Frecuencia optimizada con IA.",
+            "Español": "_**Híbrido**_: Mezcla de Aleatorio y Frecuencia optimizada con IA.",
             "English": "_**Hybrid**_: AI-optimized Random and Frequency Mix.",
             "Français": "_**Hybride**_:Mixage aléatoire et fréquentiel optimisé par l'IA.",
             "Italiano": "_**Ibrido**_: Mix casuale e di frequenza ottimizzato dall'intelligenza artificiale.",
