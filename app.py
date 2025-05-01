@@ -1171,7 +1171,7 @@ def main():
     return None
     # Generar combinación
     if st.button(text['generate'], key='btn_generar_unico_123'):
-    combinacion = generar_combinacion_con_suma_en_rango(mode)
+        combinacion = generar_combinacion_con_suma_en_rango(mode)
     if combinacion:
         st.session_state.ultima_combinacion = combinacion
         st.session_state.historial.append(combinacion)
