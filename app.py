@@ -1,5 +1,91 @@
 import streamlit as st
 import pandas as pd
+import random
+
+def generar_candidata():
+    nums = sorted(random.sample(range(1, 51), 5))
+    stars = sorted(random.sample(range(1, 13), 2))
+    return nums, stars  
+
+def cumple_filtros_personalizados(nums, tipo_numeros, consecutivos, suma_min, suma_max, termina_en, rango_1_25, rango_26_50):
+    razones = []
+    cumple = True
+    
+    # 1. Filtro pares/impares
+    pares = [n for n in nums if n % 2 == 0]  # Corregido: usar 'nums' en lugar de 'numeros'
+    impares = [n for n in nums if n % 2 != 0]  # Corregido: usar 'nums' en lugar de 'numeros'
+
+    if tipo_numeros == "Pares" and len(pares) < len(impares):
+        cumple = False
+        razones.append("- No tiene mayoría de pares")
+    elif tipo_numeros == "Impares" and len(impares) < len(pares):
+        cumple = False
+        razones.append("- No tiene mayoría de impares")
+    elif tipo_numeros == "Mezcla equilibrada" and abs(len(pares) - len(impares)) > 1:
+        cumple = False
+        razones.append("- No tiene mezcla equilibrada")
+
+    # 2. Filtro consecutivos
+    numeros_ordenados = sorted(nums)  # Corregido: usar 'nums' en lugar de 'numeros'
+    consecutivos_detectados = any(
+        numeros_ordenados[i] + 1 == numeros_ordenados[i + 1]
+        for i in range(len(numeros_ordenados) - 1)
+    )
+    if consecutivos == "Evitar consecutivos" and consecutivos_detectados:
+        cumple = False
+        razones.append("- Contiene números consecutivos")
+    elif consecutivos == "Permitir consecutivos" and not consecutivos_detectados:
+        cumple = False
+        razones.append("- No tiene números consecutivos")
+
+    # 3. Filtro suma
+    suma_total = sum(nums)  # Corregido: usar 'nums' en lugar de 'numeros'
+    if suma_min > 0 and suma_total < suma_min:
+        cumple = False
+        razones.append(f"- Suma total menor que {suma_min}")
+    if suma_max < 500 and suma_total > suma_max:
+        cumple = False
+        razones.append(f"- Suma total mayor que {suma_max}")
+
+    # 4. Filtro terminaciones
+    if termina_en:
+        terminaciones = [str(n)[-1] for n in nums]  # Corregido: usar 'nums' en lugar de 'numeros'
+        if not any(t in terminaciones for t in termina_en):
+            cumple = False
+            razones.append("- No tiene ninguna de las terminaciones requeridas")
+
+    # 5. Filtro rango 1-25
+    nums_1_25 = [n for n in nums if 1 <= n <= 25]  # Corregido: usar 'nums' en lugar de 'numeros'
+    if len(nums_1_25) < rango_1_25:
+        cumple = False
+        razones.append(f"- Tiene menos de {rango_1_25} números entre 1 y 25")
+
+    # 6. Filtro rango 26-50
+    nums_26_50 = [n for n in nums if 26 <= n <= 50]  # Corregido: usar 'nums' en lugar de 'numeros'
+    if len(nums_26_50) < rango_26_50:
+        cumple = False
+        razones.append(f"- Tiene menos de {rango_26_50} números entre 26 y 50")
+
+    return cumple, razones, suma_total, len(pares), len(impares)
+
+def generar_filtrada(tipo_numeros, consecutivos, suma_min, suma_max, termina_en, rango_1_25, rango_26_50, max_intentos=1000):
+    for _ in range(max_intentos):
+        nums, stars = generar_candidata()
+        cumple, razones, suma_total, num_pares, num_impares = cumple_filtros_personalizados(
+            nums, tipo_numeros, consecutivos, suma_min, suma_max, termina_en, rango_1_25, rango_26_50
+        )
+        if cumple:
+            return nums, stars, razones, suma_total, num_pares, num_impares
+    return None, None, ["No se encontró combinación válida con los filtros actuales"], 0, 0, 0
+def generar_filtrada(tipo_numeros, consecutivos, suma_min, suma_max, termina_en, rango_1_25, rango_26_50, max_intentos=100):
+    for _ in range(max_intentos):
+        nums, stars = generar_candidata()
+        cumple, razones, suma_total, num_pares, num_impares = cumple_filtros_personalizados(
+            nums, tipo_numeros, consecutivos, suma_min, suma_max, termina_en, rango_1_25, rango_26_50
+        )
+        if cumple:
+            return nums, stars, razones, suma_total, num_pares, num_impares
+    return None, None, ["No se encontró una combinación válida con los filtros actuales"], 0, 0, 0
 
 @st.cache_data
 def obtener_numeros_frecuentes(csv_path="Histórico.csv", top_n=15, tipo="numeros"):
@@ -1062,7 +1148,17 @@ def main():
         st.session_state.combinacion_generada = False
     if 'ultima_combinacion' not in st.session_state:
         st.session_state.ultima_combinacion = ''
-
+    if 'historial' not in st.session_state:
+        st.session_state.historial = []
+    if 'combinacion_filtrada_actual' not in st.session_state:
+        st.session_state.combinacion_filtrada_actual = None
+    if 'favoritas' not in st.session_state:
+        st.session_state.favoritas = []
+    if 'combinacion_generada' not in st.session_state:
+        st.session_state.combinacion_generada = False
+    if 'ultima_combinacion' not in st.session_state:
+        st.session_state.ultima_combinacion = ''
+    
     # Configuración de la barra lateral
     lang = st.sidebar.selectbox(
         "Idioma / Language", 
@@ -1249,83 +1345,75 @@ def main():
                         st.write(analisis["pares_riesgo"])
         except Exception as e:
             st.error(f"Error en análisis predictivo: {str(e)}")
-        # ==========================================
-        # 🎯 Después de generar la combinación
-        # Mostrar la opción de aplicar filtros personalizados
-        # ==========================================
 
+    st.markdown("---")
+    st.subheader("📜 Historial de combinaciones guardadas")
+
+    if st.session_state.historial:  # Ahora seguro que existe
+        for idx, comb in enumerate(st.session_state.historial):
+            col1, col2 = st.columns([4, 1])
+            with col1:
+                st.markdown(f"🔢 {comb}")
+            with col2:
+                if st.button("❌ Borrar", key=f"borrar_{idx}"):
+                    st.session_state.historial.pop(idx)
+                    st.experimental_rerun()
+    
+    # Botón para borrar todo (FUERA del bucle)
+        if st.button("🗑️ Borrar todo el historial", key="borrar_historial_total"):
+            st.session_state.historial.clear()
+            st.success("Historial borrado correctamente.")
+            st.experimental_rerun()
+    else:
+        st.info("No hay combinaciones en el historial aún.")
+# ==========================================
+# 🎯 Después de generar la combinación
+# Mostrar la opción de aplicar filtros personalizados
+# ==========================================
     if 'ultima_combinacion' in st.session_state and st.session_state.ultima_combinacion:
-        st.markdown('---')
-        st.subheader("🎯 ¿Quieres aplicar un Análisis de Filtros Personalizados a esta combinación?")
-    with st.expander("🎛️ Filtros Personalizados para tu Combinación", expanded=False):
-      with st.form("formulario_filtros_personalizados"):
+        st.markdown("---")
+    st.subheader("🎯 Aplicar Filtros Personalizados")
+
+    with st.expander("🎛️ Filtros avanzados para tu combinación", expanded=False):
+      with st.form(key="formulario_filtros_avanzados_v2"):
         tipo_numeros = st.radio("🧮 Tipo de Números:", ["Pares", "Impares", "Mezcla equilibrada"])
         consecutivos = st.radio("🔗 Secuencias Consecutivas:", ["Permitir consecutivos", "Evitar consecutivos"])
-        suma_min = st.number_input("➗ Suma mínima de números (opcional)", min_value=0, max_value=500, value=0, step=1)
-        suma_max = st.number_input("➗ Suma máxima de números (opcional)", min_value=0, max_value=500, value=500, step=1)
+        suma_min = st.number_input("➗ Suma mínima de números", min_value=0, max_value=500, value=0, step=1)
+        suma_max = st.number_input("➗ Suma máxima de números", min_value=0, max_value=500, value=500, step=1)
+        termina_en_str = st.text_input("🔢 Filtrar terminaciones (ej: 1,3,7)", value="")
+        rango_1_25 = st.slider("📈 Mínimo de números entre 1–25", 0, 5, 0)
+        rango_26_50 = st.slider("📉 Mínimo de números entre 26-50", 0, 5, 0)
+        submit_filtros_nuevos = st.form_submit_button("🎲 Generar nueva combinación válida")
 
-        
-        submit_filtros = st.form_submit_button("Aplicar Filtros Ahora")
-    
-    if submit_filtros:
-        try:
-            # Extraer los números de la combinación (asumiendo formato "1-2-3-4-5⭐Extra1-Extra2")
-            parte_numeros = st.session_state.ultima_combinacion.split('⭐')[0]
-            numeros = [int(x) for x in parte_numeros.split('-')]
-            cumple_filtros = True
+    if submit_filtros_nuevos:
+        termina_en = [x.strip() for x in termina_en_str.split(",") if x.strip().isdigit()] if termina_en_str else None
+        resultado = generar_filtrada(
+            tipo_numeros, consecutivos, suma_min, suma_max, termina_en, rango_1_25, rango_26_50
+        )
 
-            # 1. Filtro pares/impares
-            pares = [n for n in numeros if n % 2 == 0]
-            impares = [n for n in numeros if n % 2 != 0]
+        if resultado[0] is not None:
+            nueva_nums, nueva_stars, razones, suma_total, num_pares, num_impares = resultado
+            combinacion_texto = " - ".join(map(str, nueva_nums)) + " ⭐ " + " - ".join(map(str, nueva_stars))
+            st.session_state.combinacion_filtrada_actual = combinacion_texto
 
-            if tipo_numeros == "Pares" and len(pares) < len(impares):
-                cumple_filtros = False
-            elif tipo_numeros == "Impares" and len(impares) < len(pares):
-                cumple_filtros = False
-            elif tipo_numeros == "Mezcla equilibrada" and abs(len(pares) - len(impares)) > 1:
-                cumple_filtros = False
+            if 'historial' not in st.session_state:
+                st.session_state.historial = []
+            st.session_state.historial.append(combinacion_texto)    
+            st.success("✅ ¡Nueva combinación generada con éxito!")
+            st.write("🔢 Combinación:", combinacion_texto)
+            st.write(f"📊 Pares: {num_pares}, Impares: {num_impares}, Suma total: {suma_total}")
 
-            # 2. Filtro consecutivos
-            numeros_ordenados = sorted(numeros)
-            consecutivos_detectados = any(
-                numeros_ordenados[i] + 1 == numeros_ordenados[i + 1]
-                for i in range(len(numeros_ordenados) - 1)
-            )
+            # Botón de guardar solo se muestra cuando hay una combinación generada
+            if st.button("💾 Guardar esta combinación en el historial", key="guardar_filtrada_unico"):
+                if 'historial' not in st.session_state:
+                    st.session_state.historial = []
+                st.session_state.historial.append(combinacion_texto)
+                st.success("💾 Combinación guardada con éxito en el historial.")
+                st.session_state.combinacion_filtrada_actual = None
+                st.experimental_rerun()
+        else:
+            st.warning("No se pudo generar una combinación con los filtros actuales")
             
-            if consecutivos == "Evitar consecutivos" and consecutivos_detectados:
-                cumple_filtros = False
-            elif consecutivos == "Permitir consecutivos" and not consecutivos_detectados:
-                cumple_filtros = False
-
-            # 3. Filtro suma total
-            suma_total = sum(numeros)
-            if suma_min > 0 and suma_total < suma_min:
-                cumple_filtros = False
-            if suma_max < 500 and suma_total > suma_max:
-                cumple_filtros = False
-
-            # Mostrar resultados
-            if cumple_filtros:
-                st.success("✅ ¡La combinación cumple todos los filtros seleccionados!")
-                st.write("🔢 Combinación analizada:", st.session_state.ultima_combinacion)
-                st.write(f"📊 Detalles: {len(pares)} pares, {len(impares)} impares, Suma total: {suma_total}")
-            else:
-                st.error("❌ Esta combinación NO cumple los filtros. Intenta generar otra o relajar los filtros.")
-                st.write("🔍 Razones:")
-                if tipo_numeros == "Pares" and len(pares) < len(impares):
-                    st.write("- No tiene mayoría de números pares")
-                elif tipo_numeros == "Impares" and len(impares) < len(pares):
-                    st.write("- No tiene mayoría de números impares")
-                if consecutivos == "Evitar consecutivos" and consecutivos_detectados:
-                    st.write("- Contiene números consecutivos")
-                if suma_min > 0 and suma_total < suma_min:
-                    st.write(f"- Suma total ({suma_total}) menor que el mínimo requerido ({suma_min})")
-                if suma_max < 500 and suma_total > suma_max:
-                    st.write(f"- Suma total ({suma_total}) mayor que el máximo permitido ({suma_max})")
-        
-        except Exception as e:
-            st.error(f"Error al procesar la combinación: {str(e)}")
-
     st.markdown("---")
     st.header("📊 Análisis Estadístico de Frecuencia")
     st.info("""
