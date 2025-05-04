@@ -1118,8 +1118,8 @@ def generar_combinacion_filtrada(modo, suma_min=130, suma_max=135, max_intentos=
 def cargar_datos_frecuencia():
     """Carga los datos de frecuencia con manejo de errores"""
     try:
-        if os.path.exists("frecuencia_reales_2004_2025.csv"):
-            return pd.read_csv("frecuencia_reales_2004_2025.csv")
+        if os.path.exists("Histórico de Resultados - Euromillones - 2004 a 2025.csv"):
+            return pd.read_csv("Histórico de Resultados - Euromillones - 2004 a 2025.csv")
 
         # Datos de ejemplo si no existe el archivo
         st.warning("Archivo de frecuencia no encontrado. Usando datos de ejemplo.")
