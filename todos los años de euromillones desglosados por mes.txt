@@ -2153,3 +2153,4 @@ Mayo
 20-may: 1, 8, 13, 29, 47 -  Estrellas: 5, 6
 23-may: 10, 29, 43, 46, 49 - Estrellas: 7, 12
 27-may: 12, 30, 38, 40, 41 - Estrellas: 4, 12
+30-may: 4, 7, 14, 33, 36  - Estrellas: 1, 5
